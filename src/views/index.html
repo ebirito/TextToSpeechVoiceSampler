@@ -1,0 +1,34 @@
+<html>
+    
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <form id="input" method="GET" action="/read">
+        <div class="form-group">
+            <label for="voice">Select a voice:</label>
+            <select id="voice" name="voiceId" class="form-control">
+                <option value="">Choose a voice...</option>
+                <option value="AmazonPollyJoanna">Amazon Polly: Joanna</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="text">Text to read:</label>
+            <textarea id="text" maxlength="1000" minlength="1" name="text"
+                    placeholder="Type some text here... (1000 characters max.)" class="form-control"></textarea>
+        </div>
+        <button type="button" id="btnRead" class="btn btn-default btn-block">Read</button>
+    </form>
+    
+<script>
+    $('#btnRead').click(function() {
+        new Audio('test.mp3').play();
+    });
+</script>
+
+</body>
+</html>

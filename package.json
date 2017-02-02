@@ -1,0 +1,22 @@
+{
+  "name": "texttospeechvoicesampler",
+  "version": "1.0.0",
+  "description": "A simple app to test a few cloud text-to-speech services",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebirito/TextToSpeechVoiceSampler.git"
+  },
+  "author": "Abraham Lapscher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ebirito/TextToSpeechVoiceSampler/issues"
+  },
+  "homepage": "https://github.com/ebirito/TextToSpeechVoiceSampler#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
