@@ -1,1 +1,1 @@
-"# Text To Speech Platform Sampler App" 
+# Text To Speech Platform Sampler App
