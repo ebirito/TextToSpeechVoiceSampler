@@ -1,19 +1,19 @@
 <html>
     
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 
 <body>
-    <form id="input" method="GET" action="/read">
+    <form>
         <div class="form-group">
             <label for="voice">Select a voice:</label>
             <select id="voice" name="voiceId" class="form-control">
                 <option value="">Choose a voice...</option>
-                <option value="AmazonPollyJoanna">Amazon Polly: Joanna</option>
+                <option value="AmazonPolly">Amazon Polly: Joanna</option>
             </select>
         </div>
         <div class="form-group">
@@ -26,7 +26,34 @@
     
 <script>
     $('#btnRead').click(function() {
-        new Audio('Test.mp3').play();
+        var vendor = $('#voice').val();
+        if (vendor === ''){
+            alert('Please select a voice');
+            return;
+        }
+        var text = $('#text').val();
+        if (text === ''){
+            alert('Please enter some text');
+            return;
+        }
+        var fileName = 'synthezisedText' + Date.now();
+  
+        $.ajax({
+            url: "/synthesize",
+            type: "get", //send it through get method
+            data: { 
+                vendor: vendor, 
+                fileName: fileName,
+                text: text
+            },
+            success: function(response) {
+                console.log('Ready to play!');
+                new Audio(fileName + '.mp3').play();
+            },
+            error: function(xhr) {
+                console.log(xhr);
+            }
+        });
     });
 </script>
 

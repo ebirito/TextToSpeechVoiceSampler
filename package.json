@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ebirito/TextToSpeechVoiceSampler#readme",
   "dependencies": {
+    "aws-sdk": "^2.9.0",
     "express": "^4.14.1"
   }
 }
