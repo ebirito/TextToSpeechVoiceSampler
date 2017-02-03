@@ -6,7 +6,7 @@ module.exports = {
     synthesizeSpeech: function(fileName, text, callback) {
         // Load AWS credentials
         if (!process.env.AWS_ACCESS_KEY_ID){
-            AWS.config.loa('./amazonCredentials.json');
+            AWS.config.loadFromPath('./amazonCredentials.json');
         }
 
         // Create an Polly client
@@ -15,10 +15,11 @@ module.exports = {
             region: 'us-east-1'
         });
 
-        Polly.describeVoices(function (err, data) {
+        // For troubleshooting purposes
+        /*Polly.describeVoices(function (err, data) {
             if (err) console.log(err, err.stack); // an error occurred
             else console.log(data); // successful response
-        });
+        });*/
 
         const params = {
             'Text': text,
