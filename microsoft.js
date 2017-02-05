@@ -2,10 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const request = require('request');
 const xmlbuilder = require('xmlbuilder');
+const extension = 'mp3';
 
 module.exports = {
     synthesizeSpeech: function(fileName, text, callback) {
-        var apiKey = process.env.MICROSOFT_API_KEY || require('./microsoftCredentials').apiKey;
+        var apiKey = process.env.MICROSOFT_API_KEY || require('./credentials/microsoftCredentials').apiKey;
         var ssml_doc = xmlbuilder.create('speak')
             .att('version', '1.0')
             .att('xml:lang', 'en-us')
@@ -45,12 +46,13 @@ module.exports = {
                             console.log(err, resp.body);
                         } else {
                             try {
-                                fs.writeFile(path.join(__dirname + "/public/" + fileName + ".mp3"), speak_data, function(err) {
+                                const fullFilePath = path.join(__dirname + '/public/' + fileName + '.' + extension);
+                                fs.writeFile(fullFilePath, speak_data, function(err) {
                                     if (err) {
                                         return console.log(err)
                                     }
-                                    console.log("The file was saved!");
-                                    callback();
+                                    console.log(`The audio file was saved at ${fullFilePath}`);
+                                    callback(extension);
                                 });
                             } catch (e) {
                                 console.log(e.message);

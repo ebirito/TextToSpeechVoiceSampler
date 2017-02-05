@@ -18,8 +18,8 @@ app.get('/synthesize', function(request, response) {
       text: request.query.text
   }
 
-  synthesize.synthesize(options, function() {
-      response.json({success : "Synthezised Successfully", status : 200});
+  synthesize.synthesize(options, function(extension) {
+      response.json({success : "Synthezised Successfully", status : 200, extension: extension});
   });
 });
 

@@ -1,12 +1,13 @@
 const fs = require('fs');
 const AWS = require('aws-sdk');
 const path = require('path');
+const extension = 'mp3';
 
 module.exports = {
     synthesizeSpeech: function(fileName, text, callback) {
         // Load AWS credentials
         if (!process.env.AWS_ACCESS_KEY_ID){
-            AWS.config.loadFromPath('./amazonCredentials.json');
+            AWS.config.loadFromPath('./credentials/amazonCredentials.json');
         }
 
         // Create an Polly client
@@ -32,13 +33,14 @@ module.exports = {
                 console.log(err.code)
             } else if (data) {
                 if (data.AudioStream instanceof Buffer) {
-                    fs.writeFile(path.join(__dirname + "/public/" + fileName + ".mp3"), data.AudioStream, function(err) {
+                    const fullFilePath = path.join(__dirname + '/public/' + fileName + '.' + extension);
+                    fs.writeFile(fullFilePath, data.AudioStream, function(err) {
                         if (err) {
                             return console.log(err)
                         }
-                        console.log("The file was saved!");
-                        callback();
-                    })
+                        console.log(`The audio file was saved at ${fullFilePath}`);
+                        callback(extension);
+                    });
                 }
             }
         })
