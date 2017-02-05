@@ -2,6 +2,7 @@ const amazonPolly = require("./amazonPolly");
 const microsoft = require("./microsoft");
 const ibmWatson = require("./ibmWatson");
 const apiAi = require("./apiAi");
+const neospeech = require("./neospeech");
 
 module.exports = {
     synthesize: function(options, callback) {
@@ -17,6 +18,9 @@ module.exports = {
                 break;
             case "ApiAi":
                 apiAi.synthesizeSpeech(options.fileName, options.text, callback);
+                break;
+            case "Neospeech":
+                neospeech.synthesizeSpeech(options.fileName, options.text, callback);
                 break;
         }
     }
