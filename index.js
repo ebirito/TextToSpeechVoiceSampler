@@ -12,14 +12,23 @@ app.get('/', function(request, response) {
 });
 
 app.get('/synthesize', function(request, response) {
+  var vendorSynthesize = new synthesize(request.query.vendor);
   const options = {
-      vendor: request.query.vendor,
+      voiceId: request.query.voiceId,
       fileName: request.query.fileName,
       text: request.query.text
   }
 
-  synthesize.synthesize(options, function(extension) {
+  vendorSynthesize.synthesize(options, function(extension) {
       response.json({success : "Synthezised Successfully", status : 200, extension: extension});
+  });
+});
+
+app.get('/getVoices', function(request, response) {
+  var vendorSynthesize = new synthesize(request.query.vendor);
+
+  vendorSynthesize.getVoices(function(voices) {
+      response.json({success : "Success", status : 200, voices: voices});
   });
 });
 

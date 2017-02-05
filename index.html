@@ -10,14 +10,19 @@
 <body>
     <form>
         <div class="form-group">
-            <label for="voice">Select a voice:</label>
-            <select id="voice" name="voiceId" class="form-control">
-                <option value="">Choose a voice...</option>
-                <option value="AmazonPolly">Amazon Polly: Joanna</option>
-                <option value="Microsoft">Microsoft Cognitive Services: Zira</option>
-                <option value="IbmWatson">IBM Watson: Allison</option>
-                <option value="ApiAi">Api.ai: Leydidi</option>
+            <label for="vendor">Select a vendor:</label>
+            <select id="vendor" name="vendorId" class="form-control">
+                <option value="">Choose a vendor...</option>
+                <option value="AmazonPolly">Amazon Polly</option>
+                <option value="Microsoft">Microsoft Cognitive Services</option>
+                <option value="IbmWatson">IBM Watson</option>
+                <option value="ApiAi">Api.ai</option>
                 <!--<option value="Neospeech">Neospeech: Kate (Max 15 words)</option>-->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="voice">Select a voice:</label>
+            <select id="voice" name="voiceId" class="form-control" disabled>
             </select>
         </div>
         <div class="form-group">
@@ -35,9 +40,31 @@
         });
     });
 
+    $('#vendor').change(function() {
+        var vendor = $('#vendor').val();
+        $('#voice').prop('disabled', vendor === '');
+        $('#voice').empty();
+        if (vendor !== '') {
+            $.getJSON('/getVoices', {vendor: vendor}, function(response) {
+                
+                $.each(response.voices, function( index, value ) {
+                    $('#voice').append($('<option>', {
+                        value: value.voiceId,
+                        text: value.name + ' (' + value.sex + ')'
+                    }));
+                });
+            });
+        }
+    });  
+
     $('#btnRead').click(function() {
-        var vendor = $('#voice').val();
+        var vendor = $('#vendor').val();
         if (vendor === ''){
+            alert('Please select a vendor');
+            return;
+        }
+        var voice = $('#voice').val();
+        if (voice === ''){
             alert('Please select a voice');
             return;
         }
@@ -52,7 +79,8 @@
             url: "/synthesize",
             type: "get", //send it through get method
             data: { 
-                vendor: vendor, 
+                vendor: vendor,
+                voiceId: voice, 
                 fileName: fileName,
                 text: text
             },

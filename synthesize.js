@@ -2,26 +2,34 @@ const amazonPolly = require("./amazonPolly");
 const microsoft = require("./microsoft");
 const ibmWatson = require("./ibmWatson");
 const apiAi = require("./apiAi");
-const neospeech = require("./neospeech");
+//const neospeech = require("./neospeech");
 
-module.exports = {
-    synthesize: function(options, callback) {
-        switch(options.vendor){
-            case "AmazonPolly":
-                amazonPolly.synthesizeSpeech(options.fileName, options.text, callback);
-                break;
-            case "Microsoft":
-                microsoft.synthesizeSpeech(options.fileName, options.text, callback);
-                break;
-            case "IbmWatson":
-                ibmWatson.synthesizeSpeech(options.fileName, options.text, callback);
-                break;
-            case "ApiAi":
-                apiAi.synthesizeSpeech(options.fileName, options.text, callback);
-                break;
-            case "Neospeech":
-                neospeech.synthesizeSpeech(options.fileName, options.text, callback);
-                break;
-        }
+function Synthesize(vendor) {
+   switch(vendor){
+        case "AmazonPolly":
+            this.vendor = new amazonPolly();
+            break;
+        case "Microsoft":
+            this.vendor =  new microsoft();
+            break;
+        case "IbmWatson":
+            this.vendor = new ibmWatson();
+            break;
+        case "ApiAi":
+            this.vendor = new apiAi();
+            break;
+        /*case "Neospeech":
+            this.vendor = require("./neospeech");
+            break;*/
     }
 }
+
+Synthesize.prototype.synthesize = function(options, callback) {
+    this.vendor.synthesizeSpeech(options, callback);
+}
+
+Synthesize.prototype.getVoices = function(callback) {
+    this.vendor.getVoices(callback);
+}
+
+module.exports = Synthesize;
