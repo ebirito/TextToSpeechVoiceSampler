@@ -18,7 +18,6 @@ app.get('/synthesize', function(request, response) {
       fileName: request.query.fileName,
       text: request.query.text
   }
-
   vendorSynthesize.synthesize(options, function(extension) {
       response.json({success : "Synthezised Successfully", status : 200, extension: extension});
   });
